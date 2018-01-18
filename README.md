@@ -20,7 +20,7 @@ Enable InsTrim optimization
 ```sh
 MARKSET=1 clang-4.0 -Xclang -load -Xclang ${path of libLLVMInsTrim.so} ${source files} ...
 ```
-Enable Instrim-Approx optimization
+Enable InsTrim-Approx optimization
 ```sh
 MARKSET=1 LOOPHEAD=1 clang-4.0 -Xclang -load -Xclang ${path of libLLVMInsTrim.so} ${source files} ...
 ```
