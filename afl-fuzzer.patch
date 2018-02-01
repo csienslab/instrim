@@ -1,0 +1,27 @@
+diff --git a/llvm_mode/afl-clang-fast.c b/llvm_mode/afl-clang-fast.c
+index d4202a6..4f5d6ae 100644
+--- a/llvm_mode/afl-clang-fast.c
++++ b/llvm_mode/afl-clang-fast.c
+@@ -32,6 +32,7 @@
+ #include <unistd.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <assert.h>
+ 
+ static u8*  obj_path;               /* Path to runtime libraries         */
+ static u8** cc_params;              /* Parameters passed to the real CC  */
+@@ -127,7 +128,13 @@ static void edit_params(u32 argc, char** argv) {
+   cc_params[cc_par_cnt++] = "-Xclang";
+   cc_params[cc_par_cnt++] = "-load";
+   cc_params[cc_par_cnt++] = "-Xclang";
+-  cc_params[cc_par_cnt++] = alloc_printf("%s/afl-llvm-pass.so", obj_path);
++  if (getenv("MARKSET") == NULL) {
++    cc_params[cc_par_cnt++] = alloc_printf("%s/afl-llvm-pass.so", obj_path);
++  } else {
++    const char *instrim_pass = getenv("INSTRIM_LIB");
++    assert(instrim_pass != NULL && "No InsTrim library path");
++    cc_params[cc_par_cnt++] = alloc_printf("%s", instrim_pass);
++  }
+ #endif /* ^USE_TRACE_PC */
+ 
+   cc_params[cc_par_cnt++] = "-Qunused-arguments";
