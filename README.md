@@ -14,3 +14,6 @@ cd instrim
 cmake .
 make
 ```
+
+## Usage
+WIP
