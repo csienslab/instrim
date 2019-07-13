@@ -3,8 +3,8 @@ InsTrim: Lightweight Instrumentation for Coverage-guided Fuzzing
 
 ## Build
 ### Prerequisite
-+ llvm-4.0-dev
-+ clang-4.0
++ llvm-8.0-dev
++ clang-8.0
 + cmake >= 3.2
 
 ### Make
