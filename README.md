@@ -1,5 +1,6 @@
 # InsTrim
-InsTrim: Lightweight Instrumentation for Coverage-guided Fuzzing
+### 
+The paper: [InsTrim: Lightweight Instrumentation for Coverage-guided Fuzzing](https://www.ndss-symposium.org/wp-content/uploads/2018/07/bar2018_14_Hsu_paper.pdf)
 
 ## Build
 ### Prerequisite
