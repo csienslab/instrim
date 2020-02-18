@@ -70,7 +70,9 @@ namespace {
       unsigned total_hs = 0;
 
       for (Function &F : M) {
-        if (!F.size()) {
+        // external functions have size 0 and can not be instrumented.
+        // functions with only one basic block make no sense to intrument.
+        if (F.size() < 2) {
           continue;
         }
 
