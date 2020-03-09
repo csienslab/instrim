@@ -311,16 +311,16 @@ void MarkVertice(Function *F) {
     t_Succ[i].clear();
     t_Pred[i].clear();
   }
+
+  // Always instruments the function entry block.
+  Marked.insert(s);
+
   timeStamp = 0;
   uint32_t t = 0;
-  //MarkSubGraph(s, t);
-  //return;
-
   while( s != t ) {
     MarkSubGraph(DominatorTree::idom[t], t);
     t = DominatorTree::idom[t];
   }
-
 }
 
 // return {marked nodes}
