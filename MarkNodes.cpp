@@ -282,9 +282,9 @@ void MakeUniq(uint32_t now) {
   }
 }
 
-void MarkSubGraph(uint32_t ss, uint32_t tt) {
+bool MarkSubGraph(uint32_t ss, uint32_t tt) {
   TopologicalSort(ss, tt);
-  if(TopoOrder.empty()) return;
+  if(TopoOrder.empty()) return false;
 
   for(uint32_t i : TopoOrder) {
     NextMarked[i].clear();
@@ -294,6 +294,13 @@ void MarkSubGraph(uint32_t ss, uint32_t tt) {
   for(uint32_t i = 1 ; i < TopoOrder.size() ; i += 1) {
     MakeUniq(TopoOrder[i]);
   }
+
+  assert(TopoOrder[TopoOrder.size() - 1] == tt);
+  // Check if there is an empty path.
+  if (NextMarked[tt].count(TopoOrder[0]) > 0) {
+    return true;
+  }
+  return false;
 }
 
 void MarkVertice(Function *F) {
@@ -311,16 +318,18 @@ void MarkVertice(Function *F) {
     t_Succ[i].clear();
     t_Pred[i].clear();
   }
+
   timeStamp = 0;
   uint32_t t = 0;
-  //MarkSubGraph(s, t);
-  //return;
-
+  bool emptyPathExists = true;
   while( s != t ) {
-    MarkSubGraph(DominatorTree::idom[t], t);
+    emptyPathExists &= MarkSubGraph(DominatorTree::idom[t], t);
     t = DominatorTree::idom[t];
   }
-
+  if (emptyPathExists) {
+    // Mark all exit blocks to catch the empty path.
+    Marked.insert(t_Pred[0].begin(), t_Pred[0].end());
+  }
 }
 
 // return {marked nodes}
