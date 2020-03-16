@@ -31,6 +31,9 @@ namespace {
       return generator() % 65536;
     }
 
+  protected:
+    uint32_t MinimumFunctionSize = 1;
+
   public:
     static char ID;
     InsTrim() : ModulePass(ID), generator(0) {}
@@ -49,6 +52,9 @@ namespace {
       }
       if (getenv("LOOPHEAD")) {
         LoopHeadOpt = true;
+      }
+      if (getenv("SKIPSINGLEBLOCK")) {
+        MinimumFunctionSize = 2;
       }
       if (LoopHeadOpt) {
         MarkSetOpt = true;
@@ -70,7 +76,9 @@ namespace {
       unsigned total_hs = 0;
 
       for (Function &F : M) {
-        if (!F.size()) {
+        // external functions have size 0 and can not be instrumented.
+        // functions with only one basic block make no sense to intrument.
+        if (F.size() < MinimumFunctionSize) {
           continue;
         }
 

@@ -40,4 +40,11 @@ With `Instrim-Approx`
 ```sh
 MARKSET=1 LOOPHEAD=1 afl-2.52b/afl-clang-fast [compilation options, your target ...]
 ```
+### Skip single block functions
+The following is recommendable for C/C++ targets that are not using vtables or similar techniques:
+```sh
+MARKSET=1 SKIPSINGLEBLOCK=1 afl-2.52b/afl-clang-fast [compilation options, your target ...]
+```
+
+## Finally
 Then you can use AFL with LLVM mode to fuzz those instrumented binaries.
