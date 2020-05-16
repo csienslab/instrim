@@ -125,12 +125,6 @@ namespace {
             }
           }
 
-          auto *EBB = &F.getEntryBlock();
-          if (succ_begin(EBB) == succ_end(EBB)) {
-            MS.insert(EBB);
-            total_rs += 1;
-          }
-
           for (BasicBlock &BB : F) {
             if (MS.find(&BB) == MS.end()) {
               continue;
