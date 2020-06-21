@@ -17,6 +17,8 @@ make
 ```
 
 ### Patch and build AFL Fuzzer
+Run `build_afl.sh` or
+
 ```sh
 wget http://lcamtuf.coredump.cx/afl/releases/afl-2.52b.tgz
 tar -xvf afl-2.52b.tgz
